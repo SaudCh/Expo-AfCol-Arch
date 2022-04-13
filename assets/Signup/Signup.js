@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ActivityIndicator, Alert, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, ActivityIndicator, Alert, TouchableOpacity, ToastAndroid } from 'react-native'
 import { TextInput, Button } from "react-native-paper"
 import { useFocusEffect } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import { signupValidation } from "./signupValidation";
+import envs from '../../Config/env'
 
 
 import { COLORS } from '../Const/color';
@@ -20,7 +21,9 @@ export default function Signup() {
 
   const navigation = useNavigation();
 
-  const signup = () => {
+  const signup = async () => {
+    setErrors("")
+
     const data = {
       email,
       password,
@@ -36,8 +39,41 @@ export default function Signup() {
       return
     }
 
-    console.log(data)
-    setErrors("")
+    try {
+
+      const response = await fetch(
+        envs.DEV_API + `auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName: fName,
+          lastName: lName,
+          email: email,
+          password: password,
+          confirmPassword: cPassword
+        }),
+      }
+      );
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        throw new Error(responseData.message);
+      }
+
+      ToastAndroid.show(responseData.message, ToastAndroid.SHORT);
+      navigation.navigate("Login")
+
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+
+      let errs = {}
+      errs.api = err.message || "Something went wrong, please try again."
+      setErrors(errs)
+
+    }
 
 
   }
@@ -47,10 +83,11 @@ export default function Signup() {
     <View style={{ ...styles.body }}>
       <View style={{ ...styles.box }}>
         <Text style={{ ...styles.title }}>Signup</Text>
+        {errors.api && <Text style={{ ...styles.apiErrors }}>{errors.api}</Text>}
         <TextInput
           mode="outlined"
           label="First Name"
-          style={{ height: 40, marginTop: 10 }}
+          style={{ height: 40, marginTop: errors.api ? 5 : 10 }}
           placeholder="First Name"
           value={fName}
           onChangeText={fname => setfName(fname)}
@@ -166,5 +203,11 @@ const styles = StyleSheet.create({
   },
   errors: {
     color: 'red'
+  },
+  apiErrors: {
+    color: 'red',
+    padding: 0,
+    margin: 0,
+    marginTop: 10,
   }
 });
