@@ -1,0 +1,65 @@
+import React, { useState } from 'react'
+import { View, Text, StyleSheet, TextInput } from 'react-native'
+import { useNavigation } from "@react-navigation/native";
+import { TextInput as Input } from 'react-native-paper';
+import { dimensions } from "../Const/heightWidth"
+
+const Home = () => {
+    const navigation = useNavigation();
+    const [products, setProduct] = useState([])
+
+    useEffect(async () => {
+
+        try {
+
+            const response = await fetch(
+                envs.DEV_API + `products`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+            );
+            const responseData = await response.json();
+
+            if (!response.ok) {
+                throw new Error(responseData.message);
+            }
+
+
+            //console.log(responseData.data[0].subCategories)
+            setCategory(responseData.data)
+            //setLoading(false);
+        } catch (err) {
+            //setLoading(false);
+
+            let errs = {}
+            errs.api = err.message || "Something went wrong, please try again."
+            console.log(err.message)
+            //setErrors(errs)
+
+        }
+
+    }, []);
+
+    return (
+        <View>
+            <TextInput
+                style={{ ...styles.searchInput }}
+                placeholder="Search"
+            />
+
+            <Text>Home</Text>
+        </View>
+    )
+}
+
+export default Home
+const styles = StyleSheet.create({
+    searchInput: {
+        height: 45,
+        paddingLeft: 20,
+        backgroundColor: '#DCDCDC'
+
+    }
+});
