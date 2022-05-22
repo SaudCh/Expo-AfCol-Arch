@@ -2,88 +2,38 @@ import { View, Text, FlatList, StyleSheet, ScrollView } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { ActivityIndicator, Button, List } from 'react-native-paper'
 import { useCart } from '../Components/Hooks/cartHook'
-import CartSection from './CartSection';
 import { globalStyle } from '../Components/Styles/GlobalStyles';
-import ContactInfo from './ContactInfo';
 import { changeNS } from '../Components/Functions/Global';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { COLORS } from '../Const/color';
 import { useNavigation } from '@react-navigation/native';
-import { checkoutValidation } from './checkoutValidatin';
+import CartSection from '../Checkout/CartSection';
 
 
-export default function Checkout({ route }) {
+export default function Shipping({ route }) {
     const navigation = useNavigation()
 
-    const { note } = route.params
+    const { data } = route.params
+    const { email,
+        country,
+        firstName,
+        lastName,
+        address,
+        addressDetails,
+        city,
+        postalCode,
+        phone,
+        user,
+        note } = data
     const { cart, isLoading, total } = useCart()
-    const [expanded, setExpanded] = useState(true);
-    const [user, setUser] = useState("")
 
-    const [email, setEmail] = useState("")
-    const [country, setCountry] = useState("Pakistan")
-    const [firstName, setFirstName] = useState("")
-    const [lastName, setLastName] = useState("")
-    const [address, setAddress] = useState("")
-    const [addressDetails, setAddressDetails] = useState("")
-    const [city, setCity] = useState("")
-    const [postalCode, setPostalCode] = useState("")
-    const [phone, setPhone] = useState("")
-    const [errors, setErrors] = useState("")
+    const [expanded, setExpanded] = useState(true);
 
     const handlePress = () => setExpanded(!expanded);
-
-    const getUser = async () => {
-        var usr;
-        const jsonValue = await AsyncStorage.getItem('@authen')
-        jsonValue != null ? usr = JSON.parse(jsonValue) : null;
-        setUser(usr)
-    }
-
-    const logout = async () => {
-        let isMounted = true;
-        try {
-            await AsyncStorage.removeItem("@authen");
-            ToastAndroid.show("Logged Out", ToastAndroid.SHORT);
-        }
-        catch (exception) {
-            return false;
-        }
-        return () => { isMounted = false };
-    };
-
-    const handleSubmit = () => {
-        const data = {
-            email: user ? user.email : email,
-            country,
-            firstName,
-            lastName,
-            address,
-            addressDetails,
-            city,
-            postalCode,
-            phone,
-            user,
-            note
-        }
-
-        const err = checkoutValidation(data)
-        setErrors(err)
-        if (Object.keys(err).length !== 0) {
-            return
-        }
-
-        navigation.navigate("shipping", { data: data })
-    }
-
-    useEffect(() => {
-        getUser()
-    }, [logout])
-
 
     return (
         <View style={{ flex: 1 }}>
             <ScrollView style={{ flex: 1 }}>
+                <Text>{note}</Text>
                 <List.Section >
                     <List.Accordion
                         title="Cart"
@@ -123,20 +73,7 @@ export default function Checkout({ route }) {
                         title="Information"
                         expanded={expanded}
                         onPress={handlePress}>
-                        <ContactInfo
-                            errors={errors}
-                            user={user} logout={logout}
-                            email={email} setEmail={setEmail}
-                            country={country} setCountry={setCountry}
-                            firstName={firstName} setFirstName={setFirstName}
-                            lastName={lastName} setLastName={setLastName}
-                            address={address} setAddress={setAddress}
-                            addressDetails={addressDetails} setAddressDetails={setAddressDetails}
-                            city={city} setCity={setCity}
-                            postalCode={postalCode} setPostalCode={setPostalCode}
-                            phone={phone} setPhone={setPhone}
 
-                        />
                     </List.Accordion>
                 </List.Section>
 

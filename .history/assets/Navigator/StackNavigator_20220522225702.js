@@ -13,7 +13,6 @@ import Cart from '../Cart/Cart';
 import BySubCategory from '../Products/BySubCategory';
 import Checkout from '../Checkout/Checkout';
 import Shipping from '../Shipping/Shipping';
-import Payment from '../Payment/Payment';
 
 
 const Stack = createNativeStackNavigator()
@@ -62,11 +61,6 @@ const StackNavigation = () => {
 
                 <Stack.Screen name="shipping" component={Shipping} options={{
                     title: "Shipping", headerTintColor: COLORS.dPink, headerTitleAlign: 'center'
-                }}
-                />
-
-                <Stack.Screen name="payment" component={Payment} options={{
-                    title: "Payment", headerTintColor: COLORS.dPink, headerTitleAlign: 'center'
                 }}
                 />
 

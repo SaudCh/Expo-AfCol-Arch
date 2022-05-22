@@ -12,10 +12,10 @@ import { useNavigation } from '@react-navigation/native';
 import { checkoutValidation } from './checkoutValidatin';
 
 
-export default function Checkout({ route }) {
+export default function Shipping({ route }) {
     const navigation = useNavigation()
 
-    const { note } = route.params
+    const { data } = route.params
     const { cart, isLoading, total } = useCart()
     const [expanded, setExpanded] = useState(true);
     const [user, setUser] = useState("")
@@ -69,11 +69,12 @@ export default function Checkout({ route }) {
 
         const err = checkoutValidation(data)
         setErrors(err)
+        console.log(err)
         if (Object.keys(err).length !== 0) {
             return
         }
 
-        navigation.navigate("shipping", { data: data })
+        navigation.navigate("shipping")
     }
 
     useEffect(() => {
@@ -84,6 +85,7 @@ export default function Checkout({ route }) {
     return (
         <View style={{ flex: 1 }}>
             <ScrollView style={{ flex: 1 }}>
+                <Text>{note}</Text>
                 <List.Section >
                     <List.Accordion
                         title="Cart"

@@ -9,16 +9,13 @@ import { changeNS } from '../Components/Functions/Global';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { COLORS } from '../Const/color';
 import { useNavigation } from '@react-navigation/native';
-import { checkoutValidation } from './checkoutValidatin';
 
-
-export default function Checkout({ route }) {
+export default function Checkout() {
     const navigation = useNavigation()
-
-    const { note } = route.params
-    const { cart, isLoading, total } = useCart()
-    const [expanded, setExpanded] = useState(true);
     const [user, setUser] = useState("")
+    const [expanded, setExpanded] = useState(true);
+    const handlePress = () => setExpanded(!expanded);
+    const { cart, isLoading, total } = useCart()
 
     const [email, setEmail] = useState("")
     const [country, setCountry] = useState("Pakistan")
@@ -30,8 +27,6 @@ export default function Checkout({ route }) {
     const [postalCode, setPostalCode] = useState("")
     const [phone, setPhone] = useState("")
     const [errors, setErrors] = useState("")
-
-    const handlePress = () => setExpanded(!expanded);
 
     const getUser = async () => {
         var usr;
@@ -62,9 +57,7 @@ export default function Checkout({ route }) {
             addressDetails,
             city,
             postalCode,
-            phone,
-            user,
-            note
+            phone
         }
 
         const err = checkoutValidation(data)
@@ -72,12 +65,13 @@ export default function Checkout({ route }) {
         if (Object.keys(err).length !== 0) {
             return
         }
-
-        navigation.navigate("shipping", { data: data })
     }
 
     useEffect(() => {
+        let isMounted = true;
         getUser()
+        return () => { isMounted = false };
+
     }, [logout])
 
 

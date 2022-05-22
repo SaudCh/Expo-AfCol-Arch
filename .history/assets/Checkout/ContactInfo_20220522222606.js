@@ -1,13 +1,37 @@
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native'
 import React, { useState } from 'react'
+import { Button } from 'react-native-paper'
 import { Picker } from '@react-native-picker/picker';
 import { COLORS } from '../Const/color';
 import { useNavigation } from '@react-navigation/native';
 import { Avatar } from '../Components/Icons/Icon';
+import { checkoutValidation } from './checkoutValidatin';
 
 export default function ContactInfo(props) {
-    const { user, errors, logout, email, setEmail, firstName, setFirstName, lastName, setLastName, country, setCountry, address, setAddress, addressDetails, setAddressDetails, city, setCity, postalCode, setPostalCode, phone, setPhone } = props
+    const { user, logout, email, setEmail, firstName, setFirstName, lastName, setLastName, country, setCountry, address, setAddress, addressDetails, setAddressDetails, city, setCity, postalCode, setPostalCode, phone, setPhone } = props
     const navigation = useNavigation()
+
+    const [errors, setErrors] = useState("")
+
+    const handleSubmit = () => {
+        const data = {
+            email: user ? user.email : email,
+            country,
+            firstName,
+            lastName,
+            address,
+            addressDetails,
+            city,
+            postalCode,
+            phone
+        }
+
+        const err = checkoutValidation(data)
+        setErrors(err)
+        if (Object.keys(err).length !== 0) {
+            return
+        }
+    }
 
     return (
         <View style={{ ...styles.card }}>
@@ -104,6 +128,8 @@ export default function ContactInfo(props) {
                 />
                 {errors.phone && <Text style={{ ...styles.errors }}>{errors.phone}</Text>}
 
+                <Button onPress={() => navigation.goBack()}>Return to Cart</Button>
+                <Button onPress={() => handleSubmit()}>Submit</Button>
             </View>
         </View >
     )

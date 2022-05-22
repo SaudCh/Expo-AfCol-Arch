@@ -1,13 +1,41 @@
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native'
 import React, { useState } from 'react'
+import { Button } from 'react-native-paper'
 import { Picker } from '@react-native-picker/picker';
 import { COLORS } from '../Const/color';
 import { useNavigation } from '@react-navigation/native';
 import { Avatar } from '../Components/Icons/Icon';
+import { checkoutValidation } from './checkoutValidatin';
 
-export default function ContactInfo(props) {
-    const { user, errors, logout, email, setEmail, firstName, setFirstName, lastName, setLastName, country, setCountry, address, setAddress, addressDetails, setAddressDetails, city, setCity, postalCode, setPostalCode, phone, setPhone } = props
+export default function ContactInfo({ user, logout }) {
     const navigation = useNavigation()
+
+    const [email, setEmail] = useState("")
+    const [country, setCountry] = useState("Pakistan")
+    const [firstName, setFirstName] = useState("")
+    const [lastName, setLastName] = useState("")
+    const [address, setAddress] = useState("")
+    const [addressDetails, setAddressDetails] = useState("")
+    const [city, setCity] = useState("")
+    const [postalCode, setPostalCode] = useState("")
+    const [phone, setPhone] = useState("")
+    const [errors, setErrors] = useState("")
+
+    const handleSubmit = () => {
+        const data = {
+            email: user ? user.email : email,
+            country,
+            firstName,
+            lastName,
+            address,
+            addressDetails,
+            city,
+            postalCode,
+            phone
+        }
+
+        const err = checkoutValidation()
+    }
 
     return (
         <View style={{ ...styles.card }}>
@@ -20,18 +48,18 @@ export default function ContactInfo(props) {
                         <View style={{ marginLeft: 10 }}>
                             <Text>{user.email}</Text>
                             <TouchableOpacity onPress={() => logout()}><Text style={{ color: COLORS.dPink, fontWeight: "bold" }}>Logout</Text></TouchableOpacity>
+
                         </View>
                     </View>
                     :
                     <>
                         <TextInput
                             style={{ ...styles.input }}
+                            // style={{ height: 40, marginTop: errors.api ? 5 : 10 }}
                             placeholder="Email"
                             value={email}
                             onChangeText={email => setEmail(email)}
                         />
-                        {errors.email && <Text style={{ ...styles.errors }}>{errors.email}</Text>}
-
                         <View style={{ alignItems: "flex-end", marginTop: 5 }}>
                             <Text >Already have an account? <TouchableOpacity onPress={() => navigation.navigate("Login")}><Text style={{ color: COLORS.dPink, fontWeight: "bold" }}>Login</Text></TouchableOpacity></Text>
                         </View>
@@ -58,8 +86,6 @@ export default function ContactInfo(props) {
                     value={firstName}
                     onChangeText={e => setFirstName(e)}
                 />
-                {errors.firstName && <Text style={{ ...styles.errors }}>{errors.firstName}</Text>}
-
                 <TextInput
                     style={{ ...styles.input }}
                     placeholder="Last Name"
@@ -72,8 +98,6 @@ export default function ContactInfo(props) {
                     value={address}
                     onChangeText={e => setAddress(e)}
                 />
-                {errors.address && <Text style={{ ...styles.errors }}>{errors.address}</Text>}
-
                 <TextInput
                     style={{ ...styles.input }}
                     placeholder="Appartment, suite etc. (Optional)"
@@ -86,24 +110,20 @@ export default function ContactInfo(props) {
                     value={city}
                     onChangeText={e => setCity(e)}
                 />
-                {errors.city && <Text style={{ ...styles.errors }}>{errors.city}</Text>}
-
                 <TextInput
                     style={{ ...styles.input }}
                     placeholder="Postal code"
                     value={postalCode}
                     onChangeText={e => setPostalCode(e)}
                 />
-                {errors.postalCode && <Text style={{ ...styles.errors }}>{errors.postalCode}</Text>}
-
                 <TextInput
                     style={{ ...styles.input }}
                     placeholder="refPhone"
                     value={phone}
                     onChangeText={e => setPhone(e)}
                 />
-                {errors.phone && <Text style={{ ...styles.errors }}>{errors.phone}</Text>}
 
+                <Button onPress={() => handleSubmit()}>Submit</Button>
             </View>
         </View >
     )
@@ -125,8 +145,5 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         height: 40,
         paddingLeft: 5
-    },
-    errors: {
-        color: 'red'
-    },
+    }
 });

@@ -1,24 +1,18 @@
 import { View, Text, FlatList, StyleSheet, ScrollView } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import { ActivityIndicator, Button, List } from 'react-native-paper'
+import { ActivityIndicator, List } from 'react-native-paper'
 import { useCart } from '../Components/Hooks/cartHook'
 import CartSection from './CartSection';
 import { globalStyle } from '../Components/Styles/GlobalStyles';
 import ContactInfo from './ContactInfo';
 import { changeNS } from '../Components/Functions/Global';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { COLORS } from '../Const/color';
-import { useNavigation } from '@react-navigation/native';
-import { checkoutValidation } from './checkoutValidatin';
 
-
-export default function Checkout({ route }) {
-    const navigation = useNavigation()
-
-    const { note } = route.params
-    const { cart, isLoading, total } = useCart()
-    const [expanded, setExpanded] = useState(true);
+export default function Checkout() {
     const [user, setUser] = useState("")
+    const [expanded, setExpanded] = useState(true);
+    const handlePress = () => setExpanded(!expanded);
+    const { cart, isLoading, total } = useCart()
 
     const [email, setEmail] = useState("")
     const [country, setCountry] = useState("Pakistan")
@@ -29,9 +23,6 @@ export default function Checkout({ route }) {
     const [city, setCity] = useState("")
     const [postalCode, setPostalCode] = useState("")
     const [phone, setPhone] = useState("")
-    const [errors, setErrors] = useState("")
-
-    const handlePress = () => setExpanded(!expanded);
 
     const getUser = async () => {
         var usr;
@@ -52,37 +43,14 @@ export default function Checkout({ route }) {
         return () => { isMounted = false };
     };
 
-    const handleSubmit = () => {
-        const data = {
-            email: user ? user.email : email,
-            country,
-            firstName,
-            lastName,
-            address,
-            addressDetails,
-            city,
-            postalCode,
-            phone,
-            user,
-            note
-        }
-
-        const err = checkoutValidation(data)
-        setErrors(err)
-        if (Object.keys(err).length !== 0) {
-            return
-        }
-
-        navigation.navigate("shipping", { data: data })
-    }
-
     useEffect(() => {
+        let isMounted = true;
         getUser()
+        return () => { isMounted = false };
+
     }, [logout])
-
-
     return (
-        <View style={{ flex: 1 }}>
+        <View>
             <ScrollView style={{ flex: 1 }}>
                 <List.Section >
                     <List.Accordion
@@ -123,29 +91,26 @@ export default function Checkout({ route }) {
                         title="Information"
                         expanded={expanded}
                         onPress={handlePress}>
-                        <ContactInfo
-                            errors={errors}
-                            user={user} logout={logout}
+                        <ContactInfo user={user} logout={logout}
                             email={email} setEmail={setEmail}
-                            country={country} setCountry={setCountry}
                             firstName={firstName} setFirstName={setFirstName}
-                            lastName={lastName} setLastName={setLastName}
-                            address={address} setAddress={setAddress}
-                            addressDetails={addressDetails} setAddressDetails={setAddressDetails}
-                            city={city} setCity={setCity}
-                            postalCode={postalCode} setPostalCode={setPostalCode}
-                            phone={phone} setPhone={setPhone}
+                            lastName={lastName}
+                            address={address}
+                            addressDetails={address}
+                            city={city}
+                            postalCode={postalCode}
+                            phone={phone}
 
                         />
                     </List.Accordion>
                 </List.Section>
 
             </ScrollView>
-            <View style={{ flexDirection: 'row', justifyContent: "space-between", margin: 5 }}>
-                <Button color={COLORS.dPink} onPress={() => navigation.goBack()}>Return to Cart</Button>
-                <Button style={{ backgroundColor: COLORS.dPink }} color='#fff' onPress={() => handleSubmit()}>Continue to Shipping</Button>
+            <View style={{}}>
+                <Button onPress={() => navigation.goBack()}>Return to Cart</Button>
+                <Button onPress={() => handleSubmit()}>Continue to Shipping</Button>
             </View>
-        </View >
+        </View>
 
     )
 }

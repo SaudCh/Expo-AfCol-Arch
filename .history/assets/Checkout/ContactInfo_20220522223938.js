@@ -4,6 +4,7 @@ import { Picker } from '@react-native-picker/picker';
 import { COLORS } from '../Const/color';
 import { useNavigation } from '@react-navigation/native';
 import { Avatar } from '../Components/Icons/Icon';
+import { checkoutValidation } from './checkoutValidatin';
 
 export default function ContactInfo(props) {
     const { user, errors, logout, email, setEmail, firstName, setFirstName, lastName, setLastName, country, setCountry, address, setAddress, addressDetails, setAddressDetails, city, setCity, postalCode, setPostalCode, phone, setPhone } = props

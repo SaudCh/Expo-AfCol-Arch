@@ -19,7 +19,7 @@ export default function Checkout({ route }) {
     const { cart, isLoading, total } = useCart()
     const [expanded, setExpanded] = useState(true);
     const [user, setUser] = useState("")
-
+    
     const [email, setEmail] = useState("")
     const [country, setCountry] = useState("Pakistan")
     const [firstName, setFirstName] = useState("")
@@ -30,9 +30,9 @@ export default function Checkout({ route }) {
     const [postalCode, setPostalCode] = useState("")
     const [phone, setPhone] = useState("")
     const [errors, setErrors] = useState("")
-
+    
     const handlePress = () => setExpanded(!expanded);
-
+    
     const getUser = async () => {
         var usr;
         const jsonValue = await AsyncStorage.getItem('@authen')
@@ -69,21 +69,26 @@ export default function Checkout({ route }) {
 
         const err = checkoutValidation(data)
         setErrors(err)
+        console.log(err)
         if (Object.keys(err).length !== 0) {
             return
         }
 
-        navigation.navigate("shipping", { data: data })
+        navigation.navigate("shipping")
     }
 
     useEffect(() => {
+        let isMounted = true;
         getUser()
+        return () => { isMounted = false };
+
     }, [logout])
 
 
     return (
         <View style={{ flex: 1 }}>
             <ScrollView style={{ flex: 1 }}>
+                <Text>{note}</Text>
                 <List.Section >
                     <List.Accordion
                         title="Cart"

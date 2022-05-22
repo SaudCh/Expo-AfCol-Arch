@@ -36,7 +36,7 @@ export default function Checkout({ route }) {
     const getUser = async () => {
         var usr;
         const jsonValue = await AsyncStorage.getItem('@authen')
-        jsonValue != null ? usr = JSON.parse(jsonValue) : null;
+        jsonValue != null ? usr = JSON.parse(jsonValue) : null;)
         setUser(usr)
     }
 
@@ -69,6 +69,7 @@ export default function Checkout({ route }) {
 
         const err = checkoutValidation(data)
         setErrors(err)
+        console.log(user)
         if (Object.keys(err).length !== 0) {
             return
         }
@@ -78,7 +79,7 @@ export default function Checkout({ route }) {
 
     useEffect(() => {
         getUser()
-    }, [logout])
+    }, [])
 
 
     return (

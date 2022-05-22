@@ -46,7 +46,7 @@ export default function Cart() {
                         </View>
                         <Button onPress={() => {
                             navigation.navigate("checkout", {
-                                note: note
+                                note
                             }), {
                                 note: note
                             }

@@ -69,6 +69,7 @@ export default function Checkout({ route }) {
 
         const err = checkoutValidation(data)
         setErrors(err)
+        console.log(err)
         if (Object.keys(err).length !== 0) {
             return
         }
@@ -77,7 +78,10 @@ export default function Checkout({ route }) {
     }
 
     useEffect(() => {
+        let isMounted = true;
         getUser()
+        return () => { isMounted = false };
+
     }, [logout])
 
 
