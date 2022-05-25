@@ -36,7 +36,7 @@ export default function ForgetPassword() {
         try {
 
             const response = await fetch(
-                envs.DEV_API + `auth/forgot-password`, {
+                envs.api + `auth/forgot-password`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

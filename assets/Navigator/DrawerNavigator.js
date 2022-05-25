@@ -27,7 +27,6 @@ const DrawerNavigator = () => {
                     </Button>
                 )
             }}
-
             />
             {/* <Drawer.Screen name="prodDetails" component={ProductDetail} options={({ route }) => ({
                 title: route.params ? route.params.name : "Details", headerTintColor: COLORS.dPink,

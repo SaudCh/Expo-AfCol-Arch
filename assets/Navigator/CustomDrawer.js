@@ -15,11 +15,6 @@ export function CustomDrawer(props) {
     const [user, setUser] = useState(null)
     const [category, setCategory] = useState([])
     const [isLoading, setLoading] = useState(false)
-    const [expanded, setExpanded] = React.useState(false);
-
-    const handlePress = () => setExpanded(!expanded);
-
-
 
     useEffect(async () => {
 
@@ -34,6 +29,7 @@ export function CustomDrawer(props) {
                 },
             }
             );
+
             const responseData = await response.json();
 
             if (!response.ok) {
@@ -53,6 +49,7 @@ export function CustomDrawer(props) {
     }, []);
 
 
+    //fetch user state local storage
     useFocusEffect(
         useCallback(() => {
 
@@ -131,7 +128,8 @@ export function CustomDrawer(props) {
                 user ?
                     <Button onPress={() => logout()} style={{ ...styles.btn, justifyContent: 'center' }}>
                         <Text style={{ color: COLORS.dPink }}>Logout</Text>
-                    </Button> :
+                    </Button> 
+                    :
                     <Button onPress={() => navigate("Login")} style={{ ...styles.btn, justifyContent: 'center' }}>
                         <Text style={{ color: COLORS.dPink }}>Login</Text>
                     </Button>

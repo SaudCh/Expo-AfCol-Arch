@@ -90,16 +90,19 @@ export default function Checkout({ route }) {
                     >
                         <View style={{ ...styles.card, ...globalStyle.shadow }}>
                             {isLoading ? <ActivityIndicator size="large" color="#fof" /> : (
+                                <>
+                                    <FlatList
+                                        data={cart}
+                                        ListEmptyComponent={<View style={{ justifyContent: 'center', alignItems: "center" }}><Text>Empty</Text></View>}
+                                        style={{ paddingTop: 10 }}
+                                        keyExtractor={({ id }) => id}
+                                        renderItem={(item) => (
+                                            <CartSection item={item.item} />
+                                        )}
+                                    />
 
-                                <FlatList
-                                    data={cart}
-                                    ListEmptyComponent={<View style={{ justifyContent: 'center', alignItems: "center" }}><Text>Empty</Text></View>}
-                                    style={{ paddingTop: 10 }}
-                                    keyExtractor={({ id }) => id}
-                                    renderItem={(item) => (
-                                        <CartSection item={item.item} />
-                                    )}
-                                />
+                                    <View style={{ height: 50 }}></View>
+                                </>
                             )}
 
                             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: 10 }}>

@@ -1,5 +1,5 @@
 import react, { useState, useEffect, useCallback } from 'react'
-
+import envs from '../../../Config/env'
 export const useProdBySC = (props) => {
     const { id } = props
     const [products, setProduct] = useState([])
@@ -12,8 +12,7 @@ export const useProdBySC = (props) => {
         try {
             setLoading(true)
             const response = await fetch(
-                //envs.DEV_API + `products`, {
-                `https://afcollection.herokuapp.com/api/products`, {
+                `${envs.api}products`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

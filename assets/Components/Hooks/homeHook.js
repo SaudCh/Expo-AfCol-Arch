@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native"
+import envs from "../../../Config/env"
 
 
 export const useHome = () => {
@@ -15,8 +16,7 @@ export const useHome = () => {
         try {
             setLoading(true)
             const response = await fetch(
-                //envs.DEV_API + `products`, {
-                `https://afcollection.herokuapp.com/api/products`, {
+                `${envs.api}products`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

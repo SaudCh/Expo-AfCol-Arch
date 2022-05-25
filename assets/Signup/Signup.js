@@ -40,9 +40,9 @@ export default function Signup() {
     }
 
     try {
-
+      setLoading(true)
       const response = await fetch(
-        `https://afcollection.herokuapp.com/api/auth/register`, {
+        `${envs.api}auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
