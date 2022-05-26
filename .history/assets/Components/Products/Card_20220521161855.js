@@ -32,7 +32,7 @@ const Card = (props) => {
                     <Text style={{ ...styles.productOldPrice }}>Rs. {changeNS(price)} </Text>
                 }
 
-                <Text style={{ ...styles.productPrice }}> {discount != 0 ? "Rs. " + changeNS(price - (price * discount)/100) : null}</Text>
+                <Text style={{ ...styles.productPrice }}> {discount != 0 ? "Rs. " + changeNS(price - discount) : null}</Text>
             </View>
         </ TouchableOpacity>
     )

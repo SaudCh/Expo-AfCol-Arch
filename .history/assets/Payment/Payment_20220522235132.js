@@ -105,7 +105,7 @@ export default function Payment({ route }) {
                     >
                         <View style={{ ...styles.card, ...globalStyle.shadow }}>
                             <View >
-                                <Text style={{ fontWeight: "700", fontSize: 15, color: COLORS.dPink }}>Cash On Delivery</Text>
+                                <Text style={{ fontWeight: "700", fontSize: 15, color: COLORS.dPink }}>Jazz Cash</Text>
 
                             </View>
                         </View>

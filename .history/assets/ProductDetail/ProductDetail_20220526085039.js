@@ -123,11 +123,9 @@ const styles = StyleSheet.create({
     cartContainer: {
         justifyContent: 'space-between',
         position: 'absolute',
-        bottom: 0,
+        bottom: 5,
         paddingHorizontal: 10,
-        paddingBottom: 10,
-        width: "100%",
-        backgroundColor: "#fff"
+        width: "100%"
     },
     incContainer: {
         borderLeftWidth: 1,

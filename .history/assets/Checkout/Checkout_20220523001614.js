@@ -70,7 +70,6 @@ export default function Checkout({ route }) {
         const err = checkoutValidation(data)
         setErrors(err)
         if (Object.keys(err).length !== 0) {
-            setExpanded(true)
             return
         }
 

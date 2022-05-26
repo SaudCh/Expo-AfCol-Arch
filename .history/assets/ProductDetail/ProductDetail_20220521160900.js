@@ -42,7 +42,7 @@ export default function ProductDetail(props) {
 
                 <View style={{ ...globalStyle.hStack, marginBottom: 5 }}>
                     {subCategory.discount ? <Text style={{ fontSize: 15, textDecorationLine: "line-through" }}>Rs. {changeNS(price * quantity)}</Text> : <Text style={{ fontSize: 15 }}>Rs. {changeNS(price * quantity)}</Text>}
-                    {subCategory.discount ? <Text style={{ fontSize: 15, color: COLORS.success }}> Rs. {changeNS((price - ((price * subCategory.discount) / 100)) * quantity)}</Text> : null}
+                    {subCategory.discount ? <Text style={{ fontSize: 15, color: COLORS.success }}> Rs. {changeNS((price - subCategory.discount) * quantity)}</Text> : null}
                 </View>
 
                 <Text style={{ ...styles.collection }}><Text style={{ fontWeight: 'bold' }}>Collections: </Text>{subCategory.name}</Text>
@@ -123,11 +123,9 @@ const styles = StyleSheet.create({
     cartContainer: {
         justifyContent: 'space-between',
         position: 'absolute',
-        bottom: 0,
+        bottom: 5,
         paddingHorizontal: 10,
-        paddingBottom: 10,
-        width: "100%",
-        backgroundColor: "#fff"
+        width: "100%"
     },
     incContainer: {
         borderLeftWidth: 1,

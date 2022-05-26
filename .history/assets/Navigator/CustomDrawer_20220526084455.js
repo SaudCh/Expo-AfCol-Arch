@@ -21,7 +21,7 @@ export function CustomDrawer(props) {
         try {
             setLoading(true)
             const response = await fetch(
-                envs.api + `categories?populate=subCategories`, {
+                envs.DEV_API + `categories?populate=subCategories`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

@@ -57,7 +57,7 @@ export const useCart = () => {
     const countTotal = (ct) => {
         let tot = 0;
         ct.map((e) => {
-            let actprice = e.subCategory.discount ? e.price - (e.price * e.subCategory.discount) / 100 : e.price
+            let actprice = e.subCategory.discount ? e.price - (e.price * e.subCategory.discount) : e.price
             tot = tot + actprice * e.quantity
         })
 

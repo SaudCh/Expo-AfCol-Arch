@@ -21,7 +21,8 @@ export function CustomDrawer(props) {
         try {
             setLoading(true)
             const response = await fetch(
-                envs.api + `categories?populate=subCategories`, {
+                // envs.DEV_API + `categories?populate=subCategories`, {
+                `https://afcollection.herokuapp.com/api/categories?populate=subCategories`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -127,7 +128,7 @@ export function CustomDrawer(props) {
                 user ?
                     <Button onPress={() => logout()} style={{ ...styles.btn, justifyContent: 'center' }}>
                         <Text style={{ color: COLORS.dPink }}>Logout</Text>
-                    </Button>
+                    </Button> 
                     :
                     <Button onPress={() => navigate("Login")} style={{ ...styles.btn, justifyContent: 'center' }}>
                         <Text style={{ color: COLORS.dPink }}>Login</Text>

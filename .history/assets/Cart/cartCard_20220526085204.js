@@ -12,7 +12,7 @@ export default function CartCard(props) {
 
     const mainImage = images.find(x => x.isMain === true);
 
-    const actPrice = subCategory.discount ? price - ((price * subCategory.discount) / 100) : price
+    const actPrice = subCategory.discount ? price - subCategory.discount : price
 
     return (
         <View style={{ ...styles.card, ...globalStyle.shadow }}>
@@ -25,7 +25,7 @@ export default function CartCard(props) {
                 <View style={{ marginLeft: 10 }}>
                     <Text style={{ ...styles.title }}>{name}</Text>
                     <View style={{ flexDirection: 'row' }}>
-                        {subCategory.discount ? <Text style={{ fontSize: 15, textDecorationLine: "line-through" }}>Rs. {changeNS(price)}</Text> : <Text style={{ fontSize: 15 }}>Rs. {changeNS(actPrice)}</Text>}
+                        {subCategory.discount ? <Text style={{ fontSize: 15, textDecorationLine: "line-through" }}>Rs. {changeNS(actPrice)}</Text> : <Text style={{ fontSize: 15 }}>Rs. {changeNS(actPrice)}</Text>}
                         {subCategory.discount ? <Text style={{ fontSize: 15, color: COLORS.success }}> Rs. {changeNS(actPrice)}</Text> : null}
                     </View>
                 </View>
