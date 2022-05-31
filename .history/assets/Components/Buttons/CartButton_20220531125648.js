@@ -8,7 +8,7 @@ import { useFocusEffect } from '@react-navigation/native';
 
 export default function CartButton() {
 
-    const { length, navigation } = useCart()
+    const { navigation } = useCart()
     // console.log(cart.length)
     return (
 

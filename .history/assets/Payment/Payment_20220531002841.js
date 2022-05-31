@@ -1,4 +1,4 @@
-import { View, Text, FlatList, StyleSheet, ScrollView, TouchableOpacity, ToastAndroid } from 'react-native'
+import { View, Text, FlatList, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { ActivityIndicator, Button, List } from 'react-native-paper'
 import { useCart } from '../Components/Hooks/cartHook'
@@ -26,7 +26,7 @@ export default function Payment({ route }) {
 
         const items = cart.map((product) => ({
             _id: product.id,
-            type: product.type[0],
+            type: product.type,
             price: product.price,
             discount: product.subCategory.discount,
             quantity: product.quantity,
@@ -43,22 +43,20 @@ export default function Payment({ route }) {
             country: country,
             postalCode: postalCode,
             note: note,
-            "paymentMethod": "CashOnDelivery",
-            "token": null,
+            paymentMethod: "CashOnDelivery",
             shipping: 150,
             products: items,
             saveInfo: false,
+            token: null
         }
+
         try {
-            setOrderLoading(true)
             const response = await fetch(
                 `${envs.api}orders`, {
-                method: 'POST',
+                method: "POST",
                 headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    "Content-Type": "application/json",
                 },
-                body: JSON.stringify(orderData)
             }
             );
             const responseData = await response.json();
@@ -67,24 +65,13 @@ export default function Payment({ route }) {
                 throw new Error(responseData.message);
             }
 
+            console.log(responseData)
 
-            try {
-                await AsyncStorage.removeItem("@cart");
-                navigation.navigate('Drawer')
-                ToastAndroid.show("Order Confirmed", ToastAndroid.SHORT);
-
-            }
-            catch (exception) {
-                return false;
-            }
-
-            setOrderLoading(false)
         } catch (err) {
-            setOrderLoading(false)
+
             let errs = {}
             errs.api = err.message || "Something went wrong, please try again."
-            console.log(err)
-            ToastAndroid.show("Something went wrong", ToastAndroid.SHORT);
+            console.log(err.message)
         }
     }
 

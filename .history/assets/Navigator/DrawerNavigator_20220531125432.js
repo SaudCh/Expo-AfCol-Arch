@@ -11,7 +11,6 @@ const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
     const {length} = useCart();
-    console.log(length)
 
     return (
         <Drawer.Navigator drawerContent={(props) => <CustomDrawer {...props} />}>

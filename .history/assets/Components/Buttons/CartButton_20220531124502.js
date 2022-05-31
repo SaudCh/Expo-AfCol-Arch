@@ -8,8 +8,8 @@ import { useFocusEffect } from '@react-navigation/native';
 
 export default function CartButton() {
 
-    const { length, navigation } = useCart()
-    // console.log(cart.length)
+    const { length, cart, navigation } = useCart()
+    console.log(length)
     return (
 
         <TouchableOpacity
@@ -19,7 +19,7 @@ export default function CartButton() {
             <Entypo style={{ color: COLORS.dPink }} name="shopping-cart" size={24} color="black" />
             {length ?
                 <View style={{ ...styles.cartQuantity }}>
-                    <Text style={{ color: COLORS.white }}>{length}</Text>
+                    <Text style={{ color: COLORS.white }}>{cart.length}</Text>
                 </View> : null
             }
         </TouchableOpacity>

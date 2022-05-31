@@ -88,7 +88,6 @@ export const useCart = () => {
         const jsonValue = await AsyncStorage.getItem('@cart')
         jsonValue != null ? crt = JSON.parse(jsonValue) : null;
         var newcart = crt.filter((el) => el.id !== id);
-        setLength(newcart.length)
         await AsyncStorage.setItem('@cart', JSON.stringify(newcart))
 
         countTotal(newcart)

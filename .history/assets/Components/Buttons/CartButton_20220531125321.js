@@ -6,9 +6,9 @@ import { Entypo } from "@expo/vector-icons"
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
-export default function CartButton() {
+export default function CartButton({length}) {
 
-    const { length, navigation } = useCart()
+    const { navigation } = useCart()
     // console.log(cart.length)
     return (
 

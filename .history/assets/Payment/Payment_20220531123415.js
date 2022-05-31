@@ -50,7 +50,6 @@ export default function Payment({ route }) {
             saveInfo: false,
         }
         try {
-            setOrderLoading(true)
             const response = await fetch(
                 `${envs.api}orders`, {
                 method: 'POST',
@@ -78,9 +77,9 @@ export default function Payment({ route }) {
                 return false;
             }
 
-            setOrderLoading(false)
+
         } catch (err) {
-            setOrderLoading(false)
+
             let errs = {}
             errs.api = err.message || "Something went wrong, please try again."
             console.log(err)

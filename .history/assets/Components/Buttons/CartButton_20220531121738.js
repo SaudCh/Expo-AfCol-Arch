@@ -8,8 +8,8 @@ import { useFocusEffect } from '@react-navigation/native';
 
 export default function CartButton() {
 
-    const { length, navigation } = useCart()
-    // console.log(cart.length)
+    const { length, cart, navigation } = useCart()
+
     return (
 
         <TouchableOpacity

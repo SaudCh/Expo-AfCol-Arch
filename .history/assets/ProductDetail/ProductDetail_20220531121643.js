@@ -16,7 +16,7 @@ export default function ProductDetail(props) {
     const { product } = route.params;
     const { name, images, price, subCategory, stock, description } = product;
 
-    // console.log(product.type)
+    console.log(product.type)
 
     const { addToCart } = useCart()
     const [quantity, setQuantity] = useState(1)

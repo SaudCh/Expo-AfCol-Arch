@@ -42,17 +42,15 @@ export const useCart = () => {
             if (cart.length === 0) {
                 const crt = [];
                 crt.push(itm);
-                setLength(crt.length)
                 await AsyncStorage.setItem('@cart', JSON.stringify(crt))
             } else {
                 cart.push(itm);
-                setLength(cart.length)
                 await AsyncStorage.setItem('@cart', JSON.stringify(cart))
             }
 
             ToastAndroid.show("Added to Cart", ToastAndroid.SHORT);
 
-             
+            setLength(cart.length)
         } else {
             ToastAndroid.show("Already Exist", ToastAndroid.SHORT);
         }
@@ -74,7 +72,6 @@ export const useCart = () => {
         const jsonValue = await AsyncStorage.getItem('@cart')
         jsonValue != null ? crt = JSON.parse(jsonValue) : null;
         setCart(crt)
-        setLength(crt.length)
         countTotal(crt)
         setLoading(false)
     }
@@ -88,7 +85,6 @@ export const useCart = () => {
         const jsonValue = await AsyncStorage.getItem('@cart')
         jsonValue != null ? crt = JSON.parse(jsonValue) : null;
         var newcart = crt.filter((el) => el.id !== id);
-        setLength(newcart.length)
         await AsyncStorage.setItem('@cart', JSON.stringify(newcart))
 
         countTotal(newcart)
