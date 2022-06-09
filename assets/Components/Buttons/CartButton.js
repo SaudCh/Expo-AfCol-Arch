@@ -8,7 +8,7 @@ import { useFocusEffect } from '@react-navigation/native';
 
 export default function CartButton() {
 
-    const { length, navigation } = useCart()
+    const { cart, navigation } = useCart()
     // console.log(cart.length)
     return (
 
@@ -17,9 +17,9 @@ export default function CartButton() {
             style={{ marginRight: 5 }}
         >
             <Entypo style={{ color: COLORS.dPink }} name="shopping-cart" size={24} color="black" />
-            {length ?
+            {cart.length ?
                 <View style={{ ...styles.cartQuantity }}>
-                    <Text style={{ color: COLORS.white }}>{length}</Text>
+                    <Text style={{ color: COLORS.white }}>{cart.length}</Text>
                 </View> : null
             }
         </TouchableOpacity>

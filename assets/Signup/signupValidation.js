@@ -3,10 +3,17 @@ export const signupValidation = (data) => {
 
     if (!data.fName) {
         errors.fName = "First Name is Required."
+    } else if (/^[a-zA-Z]/.test(data.fName) === false) {
+        errors.fName = "Only alphabets are allowed."
     }
+
+
     if (!data.lName) {
         errors.lName = "Last Name is Required."
+    } else if (/^[a-zA-Z]/.test(data.lName) === false) {
+        errors.lName = "Only alphabets are allowed."
     }
+
     if (!data.email) {
         errors.email = "Email Is Required."
     }

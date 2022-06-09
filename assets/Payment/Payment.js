@@ -8,6 +8,8 @@ import { COLORS } from '../Const/color';
 import { useNavigation } from '@react-navigation/native';
 import CartSection from '../Checkout/CartSection';
 import envs from '../../Config/env'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 export default function Payment({ route }) {
@@ -67,6 +69,7 @@ export default function Payment({ route }) {
                 throw new Error(responseData.message);
             }
 
+            console.log("Hello")
 
             try {
                 await AsyncStorage.removeItem("@cart");

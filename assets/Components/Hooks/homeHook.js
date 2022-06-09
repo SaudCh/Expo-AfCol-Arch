@@ -13,6 +13,7 @@ export const useHome = () => {
     const [search, setSearch] = useState("")
 
     const fetchProducts = async () => {
+        console.log(envs.api);
         try {
             setLoading(true)
             const response = await fetch(
