@@ -43,9 +43,13 @@ export const useCart = () => {
                 const crt = [];
                 crt.push(itm);
                 await AsyncStorage.setItem('@cart', JSON.stringify(crt))
+                setLength(crt.length)
+
             } else {
                 cart.push(itm);
                 await AsyncStorage.setItem('@cart', JSON.stringify(cart))
+                setLength(cart.length)
+
             }
 
             ToastAndroid.show("Added to Cart", ToastAndroid.SHORT);
@@ -66,8 +70,6 @@ export const useCart = () => {
         setTotal(tot)
     }
 
-    // function to get date in am pm
-
 
     const getCart = async () => {
         setLoading(true)
@@ -78,6 +80,7 @@ export const useCart = () => {
         if (jsonValue != null) {
             setCart(crt)
             countTotal(crt)
+            setLength(crt.length)
         }
 
         setLoading(false)
@@ -92,6 +95,7 @@ export const useCart = () => {
         const jsonValue = await AsyncStorage.getItem('@cart')
         jsonValue != null ? crt = JSON.parse(jsonValue) : null;
         var newcart = crt.filter((el) => el.id !== id);
+        setLength(newcart.length)
         await AsyncStorage.setItem('@cart', JSON.stringify(newcart))
 
         countTotal(newcart)

@@ -6,18 +6,31 @@ import { CustomDrawer } from './CustomDrawer';
 import { COLORS } from '../Const/color';
 import CartButton from '../Components/Buttons/CartButton';
 import { useCart } from '../Components/Hooks/cartHook';
+import MyAccount from './TabNavigator';
 
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
-    const {length} = useCart();
-    console.log(length)
+    const { length } = useCart();
+    // console.log(length)
 
     return (
         <Drawer.Navigator drawerContent={(props) => <CustomDrawer {...props} />}>
 
             <Drawer.Screen name="Home" component={Home} options={{
                 title: 'All Products',
+                headerTintColor: COLORS.dPink,
+                headerTitleAlign: 'center',
+                headerRight: () => (
+                    <View style={{ marginRight: 10 }}>
+                        <CartButton length={length} />
+                    </View>
+                )
+            }}
+            />
+
+            <Drawer.Screen name="MyAccount" component={MyAccount} options={{
+                title: 'My Account',
                 headerTintColor: COLORS.dPink,
                 headerTitleAlign: 'center',
                 headerRight: () => (

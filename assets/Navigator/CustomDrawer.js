@@ -124,13 +124,20 @@ export function CustomDrawer(props) {
             <View style={{ position: 'absolute', bottom: 0, width: '100%' }}>
                 {
                     user ?
-                        <Button onPress={() => logout()} style={{ ...styles.btn, justifyContent: 'center' }}>
-                            <Text style={{ color: COLORS.dPink }}>Logout</Text>
-                        </Button>
+                        <>
+                            <Button onPress={() => navigate("MyAccount")} style={{ ...styles.btn, justifyContent: 'center' }}>
+                                <Text style={{ color: COLORS.dPink }}>My Account</Text>
+                            </Button>
+                            <Button onPress={() => logout()} style={{ ...styles.btn, justifyContent: 'center' }}>
+                                <Text style={{ color: COLORS.dPink }}>Logout</Text>
+                            </Button>
+                        </>
                         :
-                        <Button onPress={() => navigate("Login")} style={{ ...styles.btn, justifyContent: 'center' }}>
-                            <Text style={{ color: COLORS.dPink }}>Login</Text>
-                        </Button>
+                        <>
+                            <Button onPress={() => navigate("Login")} style={{ ...styles.btn, justifyContent: 'center' }}>
+                                <Text style={{ color: COLORS.dPink }}>Login</Text>
+                            </Button>
+                        </>
                 }
             </View>
         </View >
