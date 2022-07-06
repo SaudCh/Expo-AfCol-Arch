@@ -1,6 +1,6 @@
-import { View, Text, FlatList, StyleSheet, ScrollView, TouchableOpacity, ToastAndroid } from 'react-native'
+import { View, Text, FlatList, StyleSheet, ScrollView, TouchableOpacity, ToastAndroid, Modal } from 'react-native'
 import React, { useState, useContext } from 'react'
-import { ActivityIndicator, Button, List } from 'react-native-paper'
+import { ActivityIndicator, Button, List, RadioButton } from 'react-native-paper'
 import { globalStyle } from '../Components/Styles/GlobalStyles';
 import { changeNS } from '../Components/Functions/Global';
 import { COLORS } from '../Const/color';
@@ -20,6 +20,9 @@ export default function Payment({ route }) {
 
     const [orderLoading, setOrderLoading] = useState(false)
     const [expanded, setExpanded] = useState(true);
+    const [checked, setChecked] = useState('CashOnDelivery');
+    const [modal, setModal] = useState(false)
+
 
     const handlePress = () => setExpanded(!expanded);
 
@@ -168,8 +171,34 @@ export default function Payment({ route }) {
                         onPress={handlePress}
                     >
                         <View style={{ ...styles.card, ...globalStyle.shadow }}>
-                            <View >
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <RadioButton
+                                    value="CashOnDelivery"
+                                    status={checked === 'CashOnDelivery' ? 'checked' : 'unchecked'}
+                                    onPress={() => setChecked('CashOnDelivery')}
+                                />
+
                                 <Text style={{ fontWeight: "700", fontSize: 15, color: COLORS.dPink }}>Cash On Delivery</Text>
+
+                            </View>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <RadioButton
+                                    value="Card"
+                                    status={checked === 'Card' ? 'checked' : 'unchecked'}
+                                    onPress={() => setChecked('Card')}
+                                />
+
+                                <Text style={{ fontWeight: "700", fontSize: 15, color: COLORS.dPink }}>Card</Text>
+
+                            </View>
+                            <View>
+                                {checked === 'Card' ? (
+                                    <View style={{ marginLeft: 40, flexDirection: 'row', alignItems: 'center' }}>
+                                        <Button mode='outlined' color={COLORS.dPink} style={{ borderColor: COLORS.dPink }} onPress={() => setModal(true)}>
+                                            Pay
+                                        </Button>
+                                    </View>
+                                ) : null}
 
                             </View>
                         </View>
@@ -181,6 +210,21 @@ export default function Payment({ route }) {
                 <Button color={COLORS.dPink} onPress={() => navigation.goBack()}>Return to Shipping</Button>
                 {orderLoading ? <ActivityIndicator size="small" color="#fof" /> : <Button style={{ backgroundColor: COLORS.dPink }} color='#fff' onPress={() => handleSubmit()}>Complete Order</Button>}
             </View>
+            <Modal
+                transparent={true}
+                visible={modal}
+
+            >
+                <View style={{ backgroundColor: "#000000aa", flex: 1, justifyContent: 'center' }}>
+                    <View style={{ margin: 50, backgroundColor: '#ffffff', padding: 40, paddingHorizontal: 20, borderRadius: 20 }}>
+                        <Text style={{ fontSize: 18, color: COLORS.dPink, marginBottom: 10 }}>Pay Now</Text>
+
+                        <Button onPress={() => setModal(false)} style={{ marginTop: 10 }}>
+                            Cancel
+                        </Button>
+                    </View>
+                </View>
+            </Modal>
         </View >
 
     )
