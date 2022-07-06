@@ -35,3 +35,10 @@ export const CartIcon = (props) => {
         < AntDesign name="shoppingcart" size={size ? size : 24} color={color ? color : "black"} style={style} />
     )
 }
+
+export const SadIcon = (props) => {
+    const { size, color, style } = props
+    return (
+        < Entypo name="emoji-sad" size={size ? size : 24} color={color ? color : "black"} style={style} />
+    )
+}

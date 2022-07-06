@@ -1,11 +1,12 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react'
-import { RefreshControl, View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native'
+import { RefreshControl, View, Text, Button, FlatList, ActivityIndicator } from 'react-native'
 import { Searchbar } from 'react-native-paper';
 import { useHome } from '../Components/Hooks/homeHook';
 import SubCategoryCard from './SubCategoryCard';
 
 const Home = () => {
-
+    const navigation = useNavigation()
     const { products, filterProd, isLoading, refreshing, onRefresh, search, searchProducts, NoProductFound } = useHome();
 
     return (
@@ -16,6 +17,7 @@ const Home = () => {
                 onChangeText={(text) => searchProducts(text)}
                 value={search}
             />
+            
             {isLoading ? <ActivityIndicator size="large" color="#fof" /> : (
 
                 <FlatList

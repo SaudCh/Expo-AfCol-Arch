@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { RefreshControl, View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native'
-import { Searchbar } from 'react-native-paper';
+import { Button, Searchbar } from 'react-native-paper';
 import { useHome } from '../Components/Hooks/homeHook';
 import { useProdBySC } from '../Components/Hooks/useProdBySC';
+import { SadIcon } from '../Components/Icons/Icon';
 import ProductCard from '../Components/Products/Card';
+import { COLORS } from '../Const/color';
+import { dimensions } from '../Const/heightWidth';
 
 
 export default function BySubCategory({ route }) {
@@ -13,8 +16,15 @@ export default function BySubCategory({ route }) {
 
     const NoProductFound = () => {
         return (
-            <View>
-                <Text>No Product Found</Text>
+            <View style={{
+                height: dimensions.height * 0.8,
+                alignItems: 'center',
+                justifyContent: 'center',
+            }}>
+                <SadIcon size={150} color={COLORS.dPink} />
+                <Text style={{ color: COLORS.dPink, fontSize: 22, marginBottom: 10 }}>Nothing Found</Text>
+                <Text style={{ marginBottom: 10 }}>No Product found</Text>
+                <Button onPress={() => onRefresh()} mode='contained' color={COLORS.dPink}>Refresh</Button>
             </View>
         )
     }

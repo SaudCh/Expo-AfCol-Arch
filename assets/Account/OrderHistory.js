@@ -1,17 +1,18 @@
-import { View, Text, StyleSheet, FlatList, Image } from 'react-native'
-import React, { useState, useCallback, useEffect } from 'react'
+import { View, Text, StyleSheet, FlatList, Image, ActivityIndicator } from 'react-native'
+import React, { useState, useEffect } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import jwt_decode from "jwt-decode";
 import envs from "../../Config/env"
 import { globalStyle } from '../Components/Styles/GlobalStyles';
 import { COLORS } from '../Const/color';
 import { changeNS } from '../Components/Functions/Global';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 
-export default function OrderHistory() {
+export default function OrderHistory({ route }) {
     const [isLoading, setLoading] = useState(false)
     const [orders, setOrder] = useState([])
+    const navigation = useNavigation()
 
     useEffect(() => {
         const getOrder = async () => {
@@ -23,6 +24,7 @@ export default function OrderHistory() {
                     user = decoded;
                 } else {
                     user = "";
+                    navigation.navigate("Home")
                 }
             });
 
@@ -42,8 +44,6 @@ export default function OrderHistory() {
                 if (!response.ok) {
                     throw new Error(responseData.message);
                 }
-
-                console.log(responseData.data[0])
                 setOrder(responseData.data);
 
                 setLoading(false);
@@ -57,7 +57,7 @@ export default function OrderHistory() {
         }
         getOrder()
     }
-        , [])
+        , [route.params?.refresh])
 
     const getDate = (date) => {
         var d = new Date(date),
@@ -82,50 +82,52 @@ export default function OrderHistory() {
 
     return (
         <View style={styles.container}>
-            <FlatList
-                data={orders}
-                // refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-                // ListEmptyComponent={<NoProductFound />}
-                style={{ paddingTop: 10 }}
-                keyExtractor={({ _id }) => _id}
-                renderItem={(order) => {
-                    const { item } = order;
-                    return (
-                        <View style={{ ...styles.order, ...globalStyle.shadow }} >
-                            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                                <Text style={{ color: COLORS.dPink, fontSize: 16 }}>Order #{item.trackingId}</Text>
-                                <Text style={styles.orderDate}>{getDate(item.createdAt)}</Text>
-                            </View>
-                            {
-                                item.items.map((item) => {
-                                    const { name, price, images } = item.product;
-                                    const mainImage = images[0];
-                                    return (
-                                        <View style={styles.orderProduct}>
-                                            <Image
-                                                style={{ ...styles.cardImage }}
-                                                source={{
-                                                    uri: images.length ? mainImage.url : null,
-                                                }} />
-                                            <View style={{ marginLeft: 5 }}>
-                                                <Text style={{ fontSize: 15, fontWeight: "bold", color: COLORS.dPink }}>{name}</Text>
-                                                <Text style={styles.orderItemPrice}>Rs. {changeNS(price)}</Text>
-                                                <Text>Quantity: {item.quantity}</Text>
+            {isLoading ? <ActivityIndicator size="large" color="#fof" /> : (
+                <FlatList
+                    data={orders}
+                    // refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                    // ListEmptyComponent={<NoProductFound />}
+                    style={{ paddingTop: 10 }}
+                    keyExtractor={({ _id }) => _id}
+                    renderItem={(order) => {
+                        const { item } = order;
+                        return (
+                            <View style={{ ...styles.order, ...globalStyle.shadow }} >
+                                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                    <Text style={{ color: COLORS.dPink, fontSize: 16 }}>Order #{item.trackingId}</Text>
+                                    <Text style={styles.orderDate}>{getDate(item.createdAt)}</Text>
+                                </View>
+                                {
+                                    item.items.map((item) => {
+                                        const { name, price, images } = item.product;
+                                        const mainImage = images[0];
+                                        return (
+                                            <View style={styles.orderProduct}>
+                                                <Image
+                                                    style={{ ...styles.cardImage }}
+                                                    source={{
+                                                        uri: images.length ? mainImage.url : null,
+                                                    }} />
+                                                <View style={{ marginLeft: 5 }}>
+                                                    <Text style={{ fontSize: 15, fontWeight: "bold", color: COLORS.dPink }}>{name}</Text>
+                                                    <Text style={styles.orderItemPrice}>Rs. {changeNS(price)}</Text>
+                                                    <Text>Quantity: {item.quantity}</Text>
+                                                </View>
                                             </View>
-                                        </View>
-                                    )
-                                })
-                            }
+                                        )
+                                    })
+                                }
 
-                            <Text style={{ fontSize: 14 }}>Total: {changeNS(item.subtotal + item.shipping)}</Text>
+                                <Text style={{ fontSize: 14 }}>Total: {changeNS(item.subtotal + item.shipping)}</Text>
 
-                            {item.status == "Pending" ? <Text style={{ textAlign: "right", color: COLORS.danger }}>{item.status}</Text> : null}
-                            {item.status == "Processing" ? <Text style={{ textAlign: "right", color: COLORS.yellow }}>{item.status}</Text> : null}
-                        </View>
-                    )
-                }}
-            />
-
+                                {item.status == "Pending" ? <Text style={{ textAlign: "right", color: COLORS.danger }}>{item.status}</Text> : null}
+                                {item.status == "Processing" ? <Text style={{ textAlign: "right", color: COLORS.yellow }}>{item.status}</Text> : null}
+                            </View>
+                        )
+                    }}
+                />
+            )
+            }
         </View>
     )
 }

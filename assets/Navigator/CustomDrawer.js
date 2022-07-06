@@ -67,6 +67,7 @@ export function CustomDrawer(props) {
         try {
             await AsyncStorage.removeItem("@authen");
             props.navigation.closeDrawer();
+            props.navigation.navigate("Home");
             ToastAndroid.show("Logged Out", ToastAndroid.SHORT);
         }
         catch (exception) {
@@ -82,6 +83,11 @@ export function CustomDrawer(props) {
 
     return (
         <View style={{ paddingTop: 45, backgroundColor: '#fff', flex: 1 }}>
+            <TouchableOpacity onPress={() => navigate("Home")} style={{ ...styles.btn }}>
+                <View style={{ ...styles.dFlex }}>
+                    <Text style={{ ...styles.btnText }}>Home</Text>
+                </View>
+            </TouchableOpacity>
             {isLoading ? <ActivityIndicator size="large" color="#fof" /> : (
                 <FlatList
                     data={category}
@@ -89,7 +95,7 @@ export function CustomDrawer(props) {
                     renderItem={({ item }) => (
 
                         <View>{item.subCategories.length === 0 ?
-                            <TouchableOpacity onPress={() => navigate("Home")} style={{ ...styles.btn }}>
+                            <TouchableOpacity style={{ ...styles.btn }}>
                                 <View style={{ ...styles.dFlex }}>
                                     <Text style={{ ...styles.btnText }}>{item.name}</Text>
                                 </View>
@@ -125,7 +131,7 @@ export function CustomDrawer(props) {
                 {
                     user ?
                         <>
-                            <Button onPress={() => navigate("MyAccount")} style={{ ...styles.btn, justifyContent: 'center' }}>
+                            <Button onPress={() => nav.navigate("MyAccount", { screen: 'AccountDetails' })} style={{ ...styles.btn, justifyContent: 'center' }}>
                                 <Text style={{ color: COLORS.dPink }}>My Account</Text>
                             </Button>
                             <Button onPress={() => logout()} style={{ ...styles.btn, justifyContent: 'center' }}>

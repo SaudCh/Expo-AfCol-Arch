@@ -7,12 +7,12 @@ const Tab = createMaterialTopTabNavigator();
 export default function MyAccount() {
     return (
         <Tab.Navigator>
-            <Tab.Screen name="AccountDetails" options={{
-                title: 'Account Details',
-            }} component={AcountDetails} />
             <Tab.Screen name="OrderHistory" options={{
                 title: 'Order History',
             }} component={OrderHistory} />
+            <Tab.Screen name="AccountDetails" options={{
+                title: 'Account Details',
+            }} component={AcountDetails} />
         </Tab.Navigator>
     );
 }

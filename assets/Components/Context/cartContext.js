@@ -8,7 +8,6 @@ export const AppProvider = ({ children }) => {
     const [isLoading, setLoading] = useState(false)
     const [cart, setCart] = useState([])
     const [total, setTotal] = useState(0)
-    const [length, setLength] = useState(0)
 
     const addToCart = async (item, quantity, color) => {
         if (item.stock === 0) {
@@ -49,12 +48,10 @@ export const AppProvider = ({ children }) => {
                 const crt = [];
                 crt.push(itm);
                 await AsyncStorage.setItem('@cart', JSON.stringify(crt))
-                setLength(crt.length)
 
             } else {
                 cart.push(itm);
                 await AsyncStorage.setItem('@cart', JSON.stringify(cart))
-                setLength(cart.length)
 
             }
 
@@ -147,13 +144,19 @@ export const AppProvider = ({ children }) => {
         countTotal(newdata)
     };
 
+    const removeCart = async () => {
+        await AsyncStorage.removeItem('@cart')
+        setCart([])
+        setTotal(0)
+    }
+
     useEffect(() => {
         getCart()
     }, [])
 
 
     return (
-        <CartContext.Provider value={{ cart, addToCart, deleteItem, decQuan, incQuan, total, length, getCart, isLoading }}>
+        <CartContext.Provider value={{ cart, addToCart, deleteItem, decQuan, incQuan, total, getCart, isLoading, removeCart }}>
             {children}
         </CartContext.Provider>
     )

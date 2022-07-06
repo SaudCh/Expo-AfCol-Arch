@@ -1,13 +1,12 @@
 import { View, Text, FlatList, StyleSheet, ScrollView, TouchableOpacity, ToastAndroid } from 'react-native'
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { ActivityIndicator, Button, List } from 'react-native-paper'
 import { globalStyle } from '../Components/Styles/GlobalStyles';
 import { changeNS } from '../Components/Functions/Global';
 import { COLORS } from '../Const/color';
 import { useNavigation } from '@react-navigation/native';
 import CartSection from '../Checkout/CartSection';
-import envs from '../../Config/env'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import envs from '../../Config/env';
 import CartContext from '../Components/Context/cartContext';
 
 
@@ -17,7 +16,7 @@ export default function Payment({ route }) {
 
     const { data } = route.params
     const { address, addressDetails, city, country, email, firstName, lastName, phone, postalCode, note } = data
-    const { cart, isLoading, total } = useContext(CartContext);
+    const { cart, isLoading, total, removeCart } = useContext(CartContext);
 
     const [orderLoading, setOrderLoading] = useState(false)
     const [expanded, setExpanded] = useState(true);
@@ -32,6 +31,7 @@ export default function Payment({ route }) {
             price: product.price,
             discount: product.subCategory.discount,
             quantity: product.quantity,
+            color: product.color
         }));
 
         const orderData = {
@@ -65,15 +65,12 @@ export default function Payment({ route }) {
             );
             const responseData = await response.json();
 
-            console.log(responseData)
-
             if (!response.ok) {
                 throw new Error(responseData.message);
             }
-
             try {
-                await AsyncStorage.removeItem("@cart");
-                navigation.navigate('Drawer')
+                removeCart()
+                navigation.replace('Drawer', { screen: 'MyAccount', refresh: Math.random() })
                 ToastAndroid.show("Order Confirmed", ToastAndroid.SHORT);
 
             }

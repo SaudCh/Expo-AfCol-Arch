@@ -2,6 +2,10 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { View, Text } from 'react-native'
 import { useNavigation } from "@react-navigation/native"
 import envs from "../../../Config/env"
+import { COLORS } from '../../Const/color'
+import { dimensions } from '../../Const/heightWidth'
+import { Button } from 'react-native-paper'
+import { SadIcon } from '../Icons/Icon'
 
 
 export const useHome = () => {
@@ -79,8 +83,15 @@ export const useHome = () => {
     }
     const NoProductFound = () => {
         return (
-            <View>
-                <Text>No Product Found</Text>
+            <View style={{
+                height: dimensions.height * 0.8,
+                alignItems: 'center',
+                justifyContent: 'center',
+            }}>
+                <SadIcon size={150} color={COLORS.dPink} />
+                <Text style={{ color: COLORS.dPink, fontSize: 22, marginBottom: 10 }}>Nothing Found</Text>
+                <Text style={{ marginBottom: 10 }}>No items found</Text>
+                <Button onPress={() => fetchProducts()} mode='contained' color={COLORS.dPink}>Refresh</Button>
             </View>
         )
     }
