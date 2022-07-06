@@ -117,7 +117,7 @@ export default function Shipping({ route }) {
             </ScrollView>
             <View style={{ flexDirection: 'row', justifyContent: "space-between", margin: 5 }}>
                 <Button color={COLORS.dPink} onPress={() => navigation.goBack()}>Return to Checkout</Button>
-                <Button style={{ backgroundColor: COLORS.dPink }} color='#fff' onPress={() => handleSubmit()}>Continue to Payment</Button>
+                <Button style={{ backgroundColor: COLORS.dPink }} color='#fff' onPress={() => handleSubmit()}>Payment</Button>
             </View>
         </View >
 

@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import CartSection from '../Checkout/CartSection';
 import envs from '../../Config/env';
 import CartContext from '../Components/Context/cartContext';
+import { CardField } from '@stripe/stripe-react-native'
 
 
 
@@ -22,6 +23,10 @@ export default function Payment({ route }) {
     const [expanded, setExpanded] = useState(true);
     const [checked, setChecked] = useState('CashOnDelivery');
     const [modal, setModal] = useState(false)
+
+    const [uemail, setEmail] = useState();
+    const [cardDetails, setCardDetails] = useState();
+
 
 
     const handlePress = () => setExpanded(!expanded);
@@ -218,6 +223,22 @@ export default function Payment({ route }) {
                 <View style={{ backgroundColor: "#000000aa", flex: 1, justifyContent: 'center' }}>
                     <View style={{ margin: 50, backgroundColor: '#ffffff', padding: 40, paddingHorizontal: 20, borderRadius: 20 }}>
                         <Text style={{ fontSize: 18, color: COLORS.dPink, marginBottom: 10 }}>Pay Now</Text>
+                        <CardField
+                            postalCodeEnabled={true}
+                            placeholder={{
+                                number: "4242 4242 4242 4242",
+                            }}
+                            cardStyle={styles.cardd}
+                            style={styles.cardContainer}
+                            onCardChange={cardDetails => {
+                                setCardDetails(cardDetails);
+                            }}
+                        />
+                        {isLoading ? <ActivityIndicator style={{ marginTop: 5 }} size="small" color={COLORS.dPink} /> :
+                            <Button onPress={() => setModal(false)} mode='contained' color={COLORS.dPink} style={{ marginTop: 10 }}>
+                                Save
+                            </Button>
+                        }
 
                         <Button onPress={() => setModal(false)} style={{ marginTop: 10 }}>
                             Cancel
@@ -237,4 +258,11 @@ const styles = StyleSheet.create({
         padding: 10,
     },
 
+    cardd: {
+        backgroundColor: "#efefefef",
+    },
+    cardContainer: {
+        height: 50,
+        marginVertical: 10,
+    },
 });

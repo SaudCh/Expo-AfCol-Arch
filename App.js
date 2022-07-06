@@ -4,6 +4,7 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import { View, Text, LogBox } from 'react-native'
 import envs from './Config/env'
 import { AppProvider } from './assets/Components/Context/cartContext';
+import { StripeProvider } from '@stripe/stripe-react-native'
 
 export default function App() {
 
@@ -12,7 +13,9 @@ export default function App() {
   return (
     <AppProvider>
       <PaperProvider>
-        <StackNavigation />
+        <StripeProvider apiKey={"pk_test_TYooMQauvdEDq54NiTphI7jx"}>
+          <StackNavigation />
+        </StripeProvider>
       </PaperProvider>
     </AppProvider>
   );

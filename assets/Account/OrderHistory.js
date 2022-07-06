@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, FlatList, Image, ActivityIndicator } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import { View, Text, StyleSheet, FlatList, Image, ActivityIndicator, RefreshControl } from 'react-native'
+import React, { useState, useEffect, useCallback } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwt_decode from "jwt-decode";
 import envs from "../../Config/env"
@@ -12,7 +12,60 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 export default function OrderHistory({ route }) {
     const [isLoading, setLoading] = useState(false)
     const [orders, setOrder] = useState([])
+    const [refreshing, setRefreshing] = useState(false);
+
     const navigation = useNavigation()
+
+    const getOrder = async () => {
+        var user;
+        await AsyncStorage.getItem("@authen").then((val) => {
+            if (val) {
+                const jsonValue = JSON.parse(val);
+                var decoded = jwt_decode(jsonValue.token);
+                user = decoded;
+            } else {
+                user = "";
+                navigation.navigate("Home")
+            }
+        });
+
+
+        try {
+            setLoading(true)
+            const response = await fetch(
+                `${envs.api}orders?user=${user._id}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+            );
+            const responseData = await response.json();
+
+            if (!response.ok) {
+                throw new Error(responseData.message);
+            }
+            setOrder(responseData.data);
+
+            setLoading(false);
+        } catch (err) {
+            setLoading(false);
+
+            let errs = {}
+            errs.api = err.message || "Something went wrong, please try again."
+            console.log(err.message)
+        }
+    }
+
+    const wait = timeout => {
+        return new Promise(resolve => setTimeout(resolve, timeout));
+    };
+
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        getOrder()
+        wait(2000).then(() => setRefreshing(false));
+    }, []);
 
     useEffect(() => {
         const getOrder = async () => {
@@ -85,7 +138,7 @@ export default function OrderHistory({ route }) {
             {isLoading ? <ActivityIndicator size="large" color="#fof" /> : (
                 <FlatList
                     data={orders}
-                    // refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                     // ListEmptyComponent={<NoProductFound />}
                     style={{ paddingTop: 10 }}
                     keyExtractor={({ _id }) => _id}
