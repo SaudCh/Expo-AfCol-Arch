@@ -28,3 +28,10 @@ export const Avatar = (props) => {
         < FontAwesome name="user-circle" size={size ? size : 24} color={color ? color : "black"} style={style} />
     )
 }
+
+export const CartIcon = (props) => {
+    const { size, color, style } = props
+    return (
+        < AntDesign name="shoppingcart" size={size ? size : 24} color={color ? color : "black"} style={style} />
+    )
+}

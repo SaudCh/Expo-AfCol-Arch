@@ -1,12 +1,12 @@
 import { View, Text, FlatList, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 import { ActivityIndicator, Button, List } from 'react-native-paper'
-import { useCart } from '../Components/Hooks/cartHook'
 import { globalStyle } from '../Components/Styles/GlobalStyles';
 import { changeNS } from '../Components/Functions/Global';
 import { COLORS } from '../Const/color';
 import { useNavigation } from '@react-navigation/native';
 import CartSection from '../Checkout/CartSection';
+import CartContext from '../Components/Context/cartContext';
 
 
 export default function Shipping({ route }) {
@@ -24,7 +24,7 @@ export default function Shipping({ route }) {
         phone,
         user,
         note } = data
-    const { cart, isLoading, total } = useCart()
+    const { cart, isLoading, total } = useContext(CartContext)
 
     const [expanded, setExpanded] = useState(true);
 

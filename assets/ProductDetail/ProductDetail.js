@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, StyleSheet } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { dimensions } from "../Const/heightWidth"
 import { DecrementIcon, IncrementIcon } from '../Components/Icons/Icon';
 import { globalStyle } from '../Components/Styles/GlobalStyles';
@@ -9,17 +9,17 @@ import Slider from './Slider';
 import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { changeNS } from '../Components/Functions/Global';
-import { useCart } from '../Components/Hooks/cartHook';
+import CartContext from '../Components/Context/cartContext';
 
 export default function ProductDetail(props) {
     const { route } = props;
     const { product } = route.params;
-    const { name, images, price, subCategory, stock, description } = product;
+    const { name, images, price, subCategory, stock, description, colors } = product;
 
-    // console.log(product.type)
+    const { addToCart } = useContext(CartContext);
 
-    const { addToCart } = useCart()
     const [quantity, setQuantity] = useState(1)
+    const [color, setColor] = useState(colors.find(x => x.isDefault === true))
 
     const incQuantity = () => {
         setQuantity((quan) => quan + 1)
@@ -48,6 +48,19 @@ export default function ProductDetail(props) {
                 </View>
 
                 <Text style={{ ...styles.collection }}><Text style={{ fontWeight: 'bold' }}>Collections: </Text>{subCategory.name}</Text>
+                <View style={{ flexDirection: 'row' }}>
+                    {
+                        colors ?
+                            colors.map((clr) => {
+                                return (
+                                    <TouchableOpacity onPress={() => setColor(clr)} style={{ backgroundColor: clr.code, width: 25, height: 25, marginBottom: 5, marginRight: 10 }} >
+
+                                    </TouchableOpacity>
+                                )
+                            }
+                            ) : null
+                    }
+                </View>
 
                 <View style={{ marginTop: 10 }}>
                     <List.AccordionGroup>
@@ -72,7 +85,7 @@ export default function ProductDetail(props) {
                     </List.AccordionGroup>
                 </View>
 
-            </ScrollView>
+            </ScrollView >
             <View style={{ ...globalStyle.hStack, ...styles.cartContainer }}>
                 <View style={{ ...globalStyle.hStack, ...globalStyle.border }}>
 
@@ -84,7 +97,7 @@ export default function ProductDetail(props) {
                         <IncrementIcon />
                     </TouchableOpacity>
                 </View>
-                <Button mode="contained" color={COLORS.dPink} onPress={() => addToCart(product, quantity)} style={{ paddingHorizontal: 50 }}>
+                <Button mode="contained" color={COLORS.dPink} onPress={() => addToCart(product, quantity, color)} style={{ paddingHorizontal: 50 }}>
                     <Text>ADD TO CART</Text>
                 </Button>
             </View>

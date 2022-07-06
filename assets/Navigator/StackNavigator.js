@@ -28,7 +28,7 @@ const StackNavigation = () => {
                 <Stack.Screen name="ForgetPassword" component={ForgetPassword} options={{ title: 'AF Collection', headerTintColor: COLORS.dPink, }} />
                 <Stack.Screen name="prodDetails" component={ProductDetail} options={({ route, navigation }) =>
                 ({
-                    title: route.params ? route.params.name : "Details", headerTintColor: COLORS.dPink, headerTitleAlign: 'center',
+                    title: route.params ? route.params.name.substring(0,25)+"..." : "Details", headerTintColor: COLORS.dPink, headerTitleAlign: 'center',
                     headerRight: () => (
                         <CartButton />
                     )

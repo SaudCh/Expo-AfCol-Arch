@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ActivityIndicator, FlatList, TouchableOpacity, ToastAndroid } from 'react-native'
+import React, { useState, useContext } from "react";
+import { View, Text, StyleSheet, ActivityIndicator, FlatList } from 'react-native'
 import { TextInput, Button } from "react-native-paper"
 import { COLORS } from "../Const/color";
 import { globalStyle } from "../Components/Styles/GlobalStyles";
 import CartCard from "./cartCard";
-import { useCart } from "../Components/Hooks/cartHook";
 import { changeNS } from "../Components/Functions/Global";
+import EmptyCart from "./EmptyCart";
+import CartContext from '../Components/Context/cartContext';
+import { useNavigation } from "@react-navigation/native";
 
 export default function Cart() {
-    const { cart, total, deleteItem, incQuan, decQuan, navigation, isLoading } = useCart()
+    const navigation = useNavigation();
+    const { cart, total, deleteItem, incQuan, decQuan, isLoading } = useContext(CartContext)
     const [note, setNote] = useState("")
 
 
@@ -19,7 +22,7 @@ export default function Cart() {
 
                     <FlatList
                         data={cart}
-                        ListEmptyComponent={<View style={{ justifyContent: 'center', alignItems: "center" }}><Text>Empty</Text></View>}
+                        ListEmptyComponent={<EmptyCart />}
                         style={{ paddingTop: 10 }}
                         keyExtractor={({ id }) => id}
                         renderItem={(item) => (

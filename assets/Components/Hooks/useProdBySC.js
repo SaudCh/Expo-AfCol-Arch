@@ -61,10 +61,14 @@ export const useProdBySC = (props) => {
     const searchProducts = (text) => {
         if (text) {
             var newProd = products.filter((val) => {
-                return val.name.toLowerCase().includes(search.toLowerCase())
+                const prodData = val.name ? val.name.toUpperCase() : ''.toUpperCase();
+                const searchData = text.toUpperCase();
+
+                return prodData.indexOf(searchData) > -1;
             })
             setFilterProd(newProd)
             setSearch(text)
+
         } else {
             setFilterProd(products)
             setSearch(text)

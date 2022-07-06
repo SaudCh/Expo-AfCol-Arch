@@ -1,7 +1,6 @@
 import { View, Text, FlatList, StyleSheet, ScrollView } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { ActivityIndicator, Button, List } from 'react-native-paper'
-import { useCart } from '../Components/Hooks/cartHook'
 import CartSection from './CartSection';
 import { globalStyle } from '../Components/Styles/GlobalStyles';
 import ContactInfo from './ContactInfo';
@@ -10,13 +9,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { COLORS } from '../Const/color';
 import { useNavigation } from '@react-navigation/native';
 import { checkoutValidation } from './checkoutValidatin';
+import CartContext from '../Components/Context/cartContext';
 
 
 export default function Checkout({ route }) {
     const navigation = useNavigation()
 
     const { note } = route.params
-    const { cart, isLoading, total } = useCart()
+    const { cart, isLoading, total } = useContext(CartContext)
     const [expanded, setExpanded] = useState(true);
     const [user, setUser] = useState("")
 

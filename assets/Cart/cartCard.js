@@ -23,7 +23,7 @@ export default function CartCard(props) {
                 }} />
             <View style={{ flexDirection: "row", flex: 1, justifyContent: 'space-between' }}>
                 <View style={{ marginLeft: 10 }}>
-                    <Text style={{ ...styles.title }}>{name}</Text>
+                    <Text style={{ ...styles.title }}>{name.substring(0,17)}...</Text>
                     <View style={{ flexDirection: 'row' }}>
                         {subCategory.discount ? <Text style={{ fontSize: 15, textDecorationLine: "line-through" }}>Rs. {changeNS(price)}</Text> : <Text style={{ fontSize: 15 }}>Rs. {changeNS(actPrice)}</Text>}
                         {subCategory.discount ? <Text style={{ fontSize: 15, color: COLORS.success }}> Rs. {changeNS(actPrice)}</Text> : null}

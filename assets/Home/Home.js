@@ -4,24 +4,17 @@ import { Searchbar } from 'react-native-paper';
 import { useHome } from '../Components/Hooks/homeHook';
 import SubCategoryCard from './SubCategoryCard';
 
-
 const Home = () => {
 
-    const { filterProd, isLoading, refreshing, onRefresh, search, searchProducts } = useHome()
+    const { products, filterProd, isLoading, refreshing, onRefresh, search, searchProducts, NoProductFound } = useHome();
 
-    const NoProductFound = () => {
-        return (
-            <View>
-                <Text>No Product Found</Text>
-            </View>
-        )
-    }
     return (
         <View style={{ flex: 1 }}>
             <Searchbar
-                placeholder="Search"
-                value={search}
+                placeholder="Search By SubCategory"
+
                 onChangeText={(text) => searchProducts(text)}
+                value={search}
             />
             {isLoading ? <ActivityIndicator size="large" color="#fof" /> : (
 

@@ -1,7 +1,6 @@
 import { View, Text, FlatList, StyleSheet, ScrollView, TouchableOpacity, ToastAndroid } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { ActivityIndicator, Button, List } from 'react-native-paper'
-import { useCart } from '../Components/Hooks/cartHook'
 import { globalStyle } from '../Components/Styles/GlobalStyles';
 import { changeNS } from '../Components/Functions/Global';
 import { COLORS } from '../Const/color';
@@ -9,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import CartSection from '../Checkout/CartSection';
 import envs from '../../Config/env'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CartContext from '../Components/Context/cartContext';
 
 
 
@@ -17,7 +17,7 @@ export default function Payment({ route }) {
 
     const { data } = route.params
     const { address, addressDetails, city, country, email, firstName, lastName, phone, postalCode, note } = data
-    const { cart, isLoading, total } = useCart();
+    const { cart, isLoading, total } = useContext(CartContext);
 
     const [orderLoading, setOrderLoading] = useState(false)
     const [expanded, setExpanded] = useState(true);
@@ -65,11 +65,11 @@ export default function Payment({ route }) {
             );
             const responseData = await response.json();
 
+            console.log(responseData)
+
             if (!response.ok) {
                 throw new Error(responseData.message);
             }
-
-            console.log("Hello")
 
             try {
                 await AsyncStorage.removeItem("@cart");

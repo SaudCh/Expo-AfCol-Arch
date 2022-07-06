@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react'
+import { View, Text } from 'react-native'
 import { useNavigation } from "@react-navigation/native"
 import envs from "../../../Config/env"
 
 
 export const useHome = () => {
 
-    const navigation = useNavigation();
     const [products, setProduct] = useState([])
     const [isLoading, setLoading] = useState(false)
     const [refreshing, setRefreshing] = useState(false);
@@ -13,7 +13,6 @@ export const useHome = () => {
     const [search, setSearch] = useState("")
 
     const fetchProducts = async () => {
-        console.log(envs.api);
         try {
             setLoading(true)
             const response = await fetch(
@@ -63,16 +62,28 @@ export const useHome = () => {
 
     const searchProducts = (text) => {
         if (text) {
-            const newProd = products.filter((val) => {
-                return val.name.toLowerCase().includes(search.toLowerCase())
+            var newProd = products.filter((val) => {
+                console.log(val.name)
+                const prodData = val.name ? val.name.toUpperCase() : ''.toUpperCase();
+                const searchData = text.toUpperCase();
+
+                return prodData.indexOf(searchData) > -1;
             })
             setFilterProd(newProd)
             setSearch(text)
+
         } else {
             setFilterProd(products)
             setSearch(text)
         }
     }
+    const NoProductFound = () => {
+        return (
+            <View>
+                <Text>No Product Found</Text>
+            </View>
+        )
+    }
 
-    return { navigation, products, filterProd, isLoading, refreshing, onRefresh, search, searchProducts }
+    return { products, filterProd, isLoading, refreshing, onRefresh, search, searchProducts, NoProductFound }
 }
