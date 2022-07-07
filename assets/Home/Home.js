@@ -17,7 +17,7 @@ const Home = () => {
                 onChangeText={(text) => searchProducts(text)}
                 value={search}
             />
-            
+
             {isLoading ? <ActivityIndicator size="large" color="#fof" /> : (
 
                 <FlatList
@@ -26,9 +26,12 @@ const Home = () => {
                     ListEmptyComponent={<NoProductFound />}
                     style={{ paddingTop: 10 }}
                     keyExtractor={({ _id }) => _id}
-                    renderItem={(item) => (
-                        <SubCategoryCard subcategory={item.item} refreshing={refreshing} onRefresh={onRefresh} />
-                    )}
+                    renderItem={(item) => {
+                        if (item.item) {
+                            return <SubCategoryCard subcategory={item.item} refreshing={refreshing} onRefresh={onRefresh} />
+                        }
+                    }
+                    }
                 />
             )}
 

@@ -1,6 +1,6 @@
 import { View, Text, FlatList, StyleSheet, ScrollView, TouchableOpacity, ToastAndroid, Modal } from 'react-native'
 import React, { useState, useContext } from 'react'
-import { ActivityIndicator, Button, List, RadioButton } from 'react-native-paper'
+import { ActivityIndicator, Button, List, RadioButton, TextInput } from 'react-native-paper'
 import { globalStyle } from '../Components/Styles/GlobalStyles';
 import { changeNS } from '../Components/Functions/Global';
 import { COLORS } from '../Const/color';
@@ -223,6 +223,14 @@ export default function Payment({ route }) {
                 <View style={{ backgroundColor: "#000000aa", flex: 1, justifyContent: 'center' }}>
                     <View style={{ margin: 50, backgroundColor: '#ffffff', padding: 40, paddingHorizontal: 20, borderRadius: 20 }}>
                         <Text style={{ fontSize: 18, color: COLORS.dPink, marginBottom: 10 }}>Pay Now</Text>
+                        <TextInput
+                            mode="outlined"
+                            label="Email"
+                            style={{ height: 40, marginTop: 10 }}
+                            placeholder="Email"
+                            value={uemail}
+                            onChangeText={email => setEmail(email)}
+                        />
                         <CardField
                             postalCodeEnabled={true}
                             placeholder={{

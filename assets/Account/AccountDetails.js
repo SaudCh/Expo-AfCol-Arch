@@ -25,7 +25,9 @@ export default function AcountDetails() {
                 if (val) {
                     const jsonValue = JSON.parse(val);
                     setToken(jsonValue.token)
+
                     var decoded = jwt_decode(jsonValue.token);
+                    setEmail(decoded.email)
                     setUser(decoded)
                 } else {
 

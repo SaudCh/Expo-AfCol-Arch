@@ -12,9 +12,11 @@ const Card = (props) => {
     const { discount } = subCategory
 
     const mainImage = images.find(x => x.isMain === true);
-
+    
     return (
-        <TouchableOpacity style={{ ...styles.card }} onPress={() => navigation.navigate("prodDetails", {
+
+        < TouchableOpacity style={{ ...styles.card }
+        } onPress={() => navigation.navigate("prodDetails", {
             product: item,
             name: name
         })}
@@ -32,9 +34,9 @@ const Card = (props) => {
                     <Text style={{ ...styles.productOldPrice }}>Rs. {changeNS(price)} </Text>
                 }
 
-                <Text style={{ ...styles.productPrice }}> {discount != 0 ? "Rs. " + changeNS(price - (price * discount)/100) : null}</Text>
+                <Text style={{ ...styles.productPrice }}> {discount != 0 ? "Rs. " + changeNS(price - (price * discount) / 100) : null}</Text>
             </View>
-        </ TouchableOpacity>
+        </ TouchableOpacity >
     )
 }
 
